@@ -38,7 +38,8 @@ export default {
 .indexAndServerFooter
   width 100%
   padding 0 6vw
-  background rgba(57,60,73,1)
+  // background rgba(57,60,73,1)
+  background #6ac6ec
   box-shadow 0px -1px 0px 0px rgba(255,255,255,0.2)
   .companyInfo
     max-width 1200px
