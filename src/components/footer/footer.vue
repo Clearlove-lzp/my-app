@@ -2,26 +2,26 @@
   div.indexAndServerFooter
     .companyInfo
       .left
-        .aboutTitle 关于哲寻
-        .aboutInfo 上海哲寻信息科技有限公司（简称：哲寻科技）是中国领先的高校公共管理和思想政治模拟实践教学整体解决方案提供商
+        .aboutTitle 中诺物业
+        .aboutInfo 天津中诺物业服务有限公司（简称：中诺物业）是集物业服务，清洁服务，劳动服务，商务信息咨询，机械设备租赁，自有房屋租赁，房屋信息咨询，建材、日用百货、五金电料、洗涤用品、销售，园林绿化工程施工等于一体的中国领先的物业管理商
       .middle
         p.tel
           span 电话&nbsp;:&nbsp;
-          span 400-188-2010
+          span 022-22258770
         p.email
           span 邮箱&nbsp;:&nbsp;
-          span find_soft@163.com
+          span znwy001@126.com
         p.address
-          span 上海总部&nbsp;:&nbsp;
-          span 上海市长江南路180号长江软件园5F
-        p
-          span 北京分公司&nbsp;:&nbsp;
-          span 北京市丰台区海鹰路5号赛欧广场2F
+          span 地址&nbsp;:&nbsp;
+          span 天津市武清区京滨工业园京滨睿城6号楼102室-26（集中办公区）
+        //- p
+        //-   span 北京分公司&nbsp;:&nbsp;
+        //-   span 北京市丰台区海鹰路5号赛欧广场2F
       .right
         .QRCode
-          img(src="../../assets/footer/qrcode_1280.jpg")
+          img(src="@/assets/footer/qrcode_dib.jpg")
         .follow 关注微信公众号
-    .copyRight CopyRight&nbsp;&copy;&nbsp;2019&nbsp;上海哲寻信息科技有限公司&nbsp;沪公网安备31011302004051号&nbsp;&nbsp;【沪ICP备17030898号】
+    .copyRight CopyRight&nbsp;&copy;&nbsp;2019&nbsp;天津中诺物业服务有限公司&nbsp;津公网安备31011302004051号&nbsp;&nbsp;【津ICP备17030898号】
 </template>
 
 <script>

@@ -3,7 +3,7 @@
     .wideMenu
       Menu(mode="horizontal",theme="light",:active-name="activeIndex")
         .menuLogo(@click='backHome')
-          img(src='@/assets/header/logo.png')
+          img(src='@/assets/header/znwy.jpg')
         .menuRight
           .menu(v-for='(item,index) in menuList',:key='index')
             MenuItem(:name='index',v-if='!item.newsColumnList',@click.native='changePage(item)') {{item.column_name}}
@@ -36,7 +36,7 @@
     .narrowMenu
       Menu.menuTop(mode="horizontal",theme="light",:active-name="activeIndex")
         .menuLogo
-          img(src='@/assets/header/logo.png')
+          img(src='@/assets/header/znwy.jpg')
         .menuRight
           .btnMun(@click='changeMenu',:class='{"showMenu":flag==="1","closeMenu":flag!=="1"}')
             .line
@@ -152,8 +152,8 @@ header
         cursor pointer
       img
         height: auto;
-        margin-top: 13px;
-        width: 143px;
+        margin-top: 10px;
+        width: 200px;
     .menuRight
       float right
       height 76px

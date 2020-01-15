@@ -7,12 +7,13 @@
         <Row>
           <Col span="12">
             <div class="contactWay">
-              <h3>南京科技信息系统有限公司</h3>
-                <p><i class="fa fa-map-marker icon-box icon-xs"></i>地址：南京浦口区东大路2号东大科技园B座2楼</p>
-                <p><i class="fa fa-phone icon-box icon-xs"></i>服务电话：400-030-xxxx</p>
-                <p><i class="fa fa-whatsapp icon-box icon-xs"></i>公司电话：025-85991038 (周一至周五 08:30 — 17:30)</p>
-                <p><i class="fa fa-internet-explorer icon-box icon-xs"></i>网址：www.becess.com</p>
-                <p><i class="fa fa-train icon-box icon-xs"></i>地铁3号线</p>
+              <h3>天津中诺物业服务有限公司</h3>
+                <p><i class="fa fa-map-marker icon-box icon-xs"></i>地址：天津市武清区京滨工业园京滨睿城6号楼102室-26（集中办公区）</p>
+                <!-- <p><i class="fa fa-phone icon-box icon-xs"></i>服务电话：400-030-xxxx</p> -->
+                <p><i class="fa fa-whatsapp icon-box icon-xs"></i>公司电话：022-22258770</p>
+                <p><i class="fa fa-internet-explorer icon-box icon-xs"></i>邮箱：znwy001@126.com</p>
+                <p><i class="fa fa-internet-explorer icon-box icon-xs"></i>经理：沙立强</p>
+                <!-- <p><i class="fa fa-train icon-box icon-xs"></i>地铁3号线</p> -->
             </div>
           </Col>
           <Col span="12">

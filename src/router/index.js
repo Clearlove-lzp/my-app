@@ -40,6 +40,16 @@ const routes = [
         name: 'contactUs',
         component: () => import(/* webpackChunkName: "contactUs" */ '../views/contactUs/contactUs.vue'),
       },
+      {
+        path: '/productDetail',
+        name: 'productDetail',
+        component: () => import(/* webpackChunkName: "productDetail" */ '../views/productDetail/productDetail.vue'),
+      },
+      {
+        path: '/newsDetail',
+        name: 'newsDetail',
+        component: () => import(/* webpackChunkName: "productDetail" */ '../views/productDetail/productDetail.vue'),
+      },
     ]
   },
 ]

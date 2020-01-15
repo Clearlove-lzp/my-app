@@ -7,7 +7,7 @@
       .mainbox2 专业化服务团队， 7*24响应支持
     div.box2
       .rightbox2
-        img(src="@/assets/servicesupport/image/Bitmap Copy.png")
+        img(src="@/assets/servicesupport/image/wuye0.jpg")
       .leftbox2
         .lbox21 售后服务及培训内容
         .lbox211 1、软件提供免费的上门安装、调试、培训服务。
@@ -19,7 +19,7 @@
     .line1
     div.box3
       .rightbox3
-        img(src="@/assets/servicesupport/image/Bitmap.png")
+        img(src="@/assets/servicesupport/image/wuye1.jpg")
       .leftbox3
         .lbox31 应急维修时间安排，不能修复时采取的措施
         .lbox311 1、对于软件故障造成的教学科研活动无法继续进行情况，我方承诺在接到反馈后实时响应，如远程无法解决问题，承诺24小时内到达现场服务，并最迟在一个工作日内提供故障的应急策略和措施。
@@ -27,7 +27,7 @@
     .line1
     div.box4
       .rightbox4
-        img(src="@/assets/servicesupport/image/undraw_pair_programming_njlp.png")
+        img(src="@/assets/servicesupport/image/wuye2.jpg")
       .leftbox4
         .lbox41 免费培训计划
         .lbox411 1、软件提供免费的上门安装、调试、培训服务。
@@ -37,7 +37,7 @@
     .line1
     div.box5
       .rightbox5
-        img(src="@/assets/servicesupport/image/Bitmap Copy 5.png")
+        img(src="@/assets/servicesupport/image/wuye3.jpg")
       .leftbox5
         .lbox51 其它服务承诺
         .lbox511 1、保证软件的免费维护、升级服务，包括新版本的上门安装、模块的更新、修正、调整，系统的调优、纠错等服务。

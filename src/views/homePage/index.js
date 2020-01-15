@@ -135,7 +135,7 @@ export default function common() {
             isBegin = true;
   
             $(".num1").css('backgroundPosition','0 0');
-            var result = '11';
+            var result = '10';
             var num_arr = (result+'').split('');
             $(".num1").each(function(index){
                 var _num = $(this);
@@ -180,13 +180,13 @@ export default function common() {
             });
 
             $(".num4").css('backgroundPosition','0 0');
-            var result2 = '1200';
-            var num_arr2 = (result2+'').split('');
+            var result3 = '30';
+            var num_arr3 = (result3+'').split('');
             $(".num4").each(function(index){
                 var _num = $(this);
                 setTimeout(function(){
                     _num.animate({
-                        backgroundPosition: '(0 '+((u*60) - (u*num_arr2[index]))+'px)'
+                        backgroundPosition: '(0 '+((u*60) - (u*num_arr3[index]))+'px)'
                     },{
                         duration: 5000,
                         easing: "easeInOutCirc"

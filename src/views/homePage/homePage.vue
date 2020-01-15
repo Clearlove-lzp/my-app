@@ -12,7 +12,7 @@
           .productTabsItem
             //- Button(v-for="(c, index) of categoryList" :type="categoryIndex === index ? 'primary' : 'default'" @click="changeProductView(index)") {{c.name}}
         .productsView
-          .productItem(v-for="(p, index) of productsList")
+          .productItem(v-for="(p, index) of productsList" @click="goProductDetail")
             div.imgBox
               img(:src="p.newsp_path")
             //- .time {{p.newsp_createTime}}
@@ -31,34 +31,34 @@
                   div.num1
                   div.num1
                   div.num_ico 年
-                div.text 11年网站建设经验
-              div(class="m-text" style="border-left: 1px solid #dedede; border-right: 1px solid #dedede;")
-                div.number
-                  div.num2
-                  div.num2
-                  div.num2
-                  div.num2
-                  div.num_ico
-                    img(src="@/assets/homepage/image/h_more.png" alt="我的网站")
-                div.text 2000多个精品网站案例
-              div(class="m-text" style="border-left: 1px solid #dedede; border-right: 1px solid #dedede;")
-                div.number
-                  div.num3
-                  div.num3
-                  div.num3
-                  div.num3
-                  div.num_ico
-                    img(src="@/assets/homepage/image/h_more.png" alt="我的网站")
-                div.text 服务了1200多家客户
+                div.text 10年物业服务经验
               div.m-text
                 div.number
                   div.num4
                   div.num4
-                  div.num4
-                  div.num4
+                  //- div.num4
+                  //- div.num4
+                  div.num_ico
+                    img(src="@/assets/homepage/image/h_more.png" alt="我的网站")
+                div.text 涉及30多种服务品类
+              div(class="m-text" style="border-left: 1px solid #dedede; border-right: 1px solid #dedede;")
+                div.number
+                  div.num3
+                  div.num3
+                  div.num3
+                  div.num3
                   div.num_ico
                     img(src="@/assets/homepage/image/h_more.png" alt="我的网站")
                 div.text 服务了1200多家客户
+              div(class="m-text" style="border-left: 1px solid #dedede; border-right: 1px solid #dedede;")
+                div.number
+                  div.num2
+                  div.num2
+                  div.num2
+                  div.num2
+                  div.num_ico
+                    img(src="@/assets/homepage/image/h_more.png" alt="我的网站")
+                div.text 2000多个精品案例
     .newsCenter.moduleItem
       .content
         .title
@@ -68,7 +68,7 @@
         .productTabs
           .productTabsItem
         .newsBox
-          .newItem(v-for='(item,index) in newList',:key='index')
+          .newItem(v-for='(item,index) in newList',:key='index' @click="goNewsDetail")
             .date
               .day {{item.day}}
               .year {{item.year}}
@@ -176,6 +176,16 @@ export default {
   },
   computed: {},
   methods: {
+    goProductDetail() {
+      this.$router.push('/productDetail')
+      sessionStorage.setItem("newsType", '案例中心');
+      this.$bus.$emit("updateNewsType");
+    },
+    goNewsDetail() {
+      this.$router.push('/newsDetail')
+      sessionStorage.setItem("newsType", '新闻中心');
+      this.$bus.$emit("updateNewsType");
+    },
     moreCase() {
       sessionStorage.setItem("newsType", '案例中心');
       this.$bus.$emit("updateNewsType");
@@ -286,6 +296,7 @@ export default {
     vertical-align top
     margin-bottom 41px
     text-align center
+    cursor pointer
     &:hover
       .new
         .newTitle

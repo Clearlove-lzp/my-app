@@ -70,14 +70,14 @@ export default {
       loadBMap("odVtZzMi9ihkDivAWB5PIk6qGpzuk2k1")
         .then(() => {
           const sContent =            "<div style='width: 287px;position: relative'>" +
-            "<h4 style='margin:0 0 5px 0;padding:0.2em 0;font-size: 20px;rgba(28,34,44,1)'>上海总部</h4>" +
-            "<p style='margin-bottom:5px;line-height:1.5;font-size:12px;color:rgba(42,46,54,0.75);line-height:24px;'>上海市长江南路180号（三号线长江南路地铁站附近）</p>" +
-            "<p style='color: font-size:14px;font-family:MicrosoftYaHeiUI-Bold;font-weight:bold;color:rgba(65,151,232,1);line-height:24px;font-size: 14px'><img id='imgDemo1' src='./static/img/Group.png' width='14' style='margin-right:10px;' height='14'/><span style='margin-right: 33px'>400-188-2010</span><img id='imgDemo' src='./static/img/Bitmap_1.png' width='14' style='margin-right:10px' height='14'><span style=';font-size: 14px'>021-65066038</span></p>" +
-            "<div style='position:absolute;left:-45px;top:0;width:40px;height:40px;background:rgba(65,151,232,1);color:#FFF;text-align: center;line-height: 40px;font-size:18px;font-weight:bold;'>沪</div>" +
+            "<h4 style='margin:0 0 5px 0;padding:0.2em 0;font-size: 20px;rgba(28,34,44,1)'>中诺物业</h4>" +
+            "<p style='margin-bottom:5px;line-height:1.5;font-size:12px;color:rgba(42,46,54,0.75);line-height:24px;'>天津市武清区京滨工业园京滨睿城6号楼102室</p>" +
+            "<p style='color: font-size:14px;font-family:MicrosoftYaHeiUI-Bold;font-weight:bold;color:rgba(65,151,232,1);line-height:24px;font-size: 14px'><img id='imgDemo1' src='./img/Group.png' width='14' style='margin-right:10px;' height='14'/><span style='margin-right: 33px'>沙立强</span><img id='imgDemo' src='./img/Bitmap_1.png' width='14' style='margin-right:10px' height='14'><span style=';font-size: 14px'>022-22258770</span></p>" +
+            "<div style='position:absolute;left:-45px;top:0;width:40px;height:40px;background:rgba(65,151,232,1);color:#FFF;text-align: center;line-height: 40px;font-size:18px;font-weight:bold;'>津</div>" +
             "</div>";
           // 百度地图API功能
           this.wodeMap = new BMap.Map(this.mapId); // 创建Map实例
-          const point = new BMap.Point(121.491252, 31.339003);
+          const point = new BMap.Point(116.832376, 39.565863);
           this.wodeMap.centerAndZoom(point, 15); // 初始化地图,设置中心点坐标和地图级别
           const marker = new BMap.Marker(point); // 创建标注
           this.wodeMap.addOverlay(marker); // 将标注添加到地图中
@@ -85,19 +85,20 @@ export default {
           // 添加公司信息标签
           const infoWindow = new BMap.InfoWindow(sContent); // 创建信息窗口对象
           const me = marker;
-          marker.addEventListener("click", () => {
-            me.openInfoWindow(infoWindow);
-            document.getElementById("imgDemo").onload = () => {
-              infoWindow.redraw(); // 防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
-            };;
-          });
+          marker.openInfoWindow(infoWindow);
+          // marker.addEventListener("click", () => {
+          //   me.openInfoWindow(infoWindow);
+          //   document.getElementById("imgDemo").onload = () => {
+          //     infoWindow.redraw(); // 防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+          //   };;
+          // });
           // 添加地图类型控件
           this.wodeMap.addControl(
             new BMap.MapTypeControl({
               mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP]
             })
           );
-          this.wodeMap.setCurrentCity("上海"); // 设置地图显示的城市 此项是必须设置的
+          this.wodeMap.setCurrentCity("天津"); // 设置地图显示的城市 此项是必须设置的
           this.wodeMap.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
         })
         .catch(err => {
