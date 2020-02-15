@@ -344,11 +344,11 @@ export default {
         overflow hidden
 
 .home_container .h_h1{text-align:center;font-size:40px;line-height:30px;color:#000000;padding-bottom:10px; margin:80px 0 0 0;}
-.home_container .h_h1.on{background:url(../../assets/homepage/image/s15.png) center bottom no-repeat;}
+.home_container .h_h1.on{background:url(../../../assets/homepage/image/s15.png) center bottom no-repeat;}
 .home_container .h_h1 span{font-family:Arial;font-size:30px;line-height:30px;color:#999999;text-transform:uppercase;}
 .home_container .h_h2{text-align:center;font-size:16px;line-height:30px;color:#666666;margin:10px 0 25px 0;overflow:hidden;}
 
-.clients_panel{height: 570px;width: 100%;background: url(../../assets/homepage/image/h_clients_bj.jpg) no-repeat center;overflow: hidden;position: relative;}
+.clients_panel{height: 570px;width: 100%;background: url(../../../assets/homepage/image/h_clients_bj.jpg) no-repeat center;overflow: hidden;position: relative;}
 .clients_panel .home_container .h_h1,.clients_panel .home_container .h_h2{color: #000;}
 .clients_panel .home_container .h_h1 span{opacity: 0.6;color: #000;}
 .clients_panel .clients_container{height: 160px;width: 100%;overflow: hidden;margin-top: 80px;display: flex;justify-content: center;}
@@ -356,10 +356,10 @@ export default {
 .clients_panel .clients_left .m-text{height: 160px;float: left;overflow: hidden;padding: 0 38px;text-align: center;color: #000;font-size: 16px;}
 .clients_panel .clients_left .m-text .number{width: 100%;height: 120px;line-height: 120px;position: relative;}
 .clients_panel .clients_left .m-text .number .num_ico{font-size: 16px;font-weight: bold;color: #000;position: absolute;top: 0;right: -15px;height: 50px;width: 20px;line-height: 35px;}
-.clients_panel .clients_left .m-text .number .num1,.clients_panel .clients_left .m-text .number .num2,.clients_panel .clients_left .m-text .number .num3,.clients_panel .clients_left .m-text .number .num4{background:url(../../assets/homepage/image/num.png) top center repeat-y;width:52px;height:90px;margin-right:5px;margin-top: 10px;display: inline-block;}
+.clients_panel .clients_left .m-text .number .num1,.clients_panel .clients_left .m-text .number .num2,.clients_panel .clients_left .m-text .number .num3,.clients_panel .clients_left .m-text .number .num4{background:url(../../../assets/homepage/image/num.png) top center repeat-y;width:52px;height:90px;margin-right:5px;margin-top: 10px;display: inline-block;}
 .clients_panel .clients_right{height: 160px;width: 348px;float: right;position: relative;}
 .clients_panel .clients_right .swiper-clients{width: 100%;height: 100%;overflow: hidden;}
-.clients_panel .clients_right .swiper-slide{background:url(../../assets/homepage/image/h_clients_txtbj.png) no-repeat center bottom;position: relative;}
+.clients_panel .clients_right .swiper-slide{background:url(../../../assets/homepage/image/h_clients_txtbj.png) no-repeat center bottom;position: relative;}
 .clients_panel .clients_right .swiper-slide .g-img{position: absolute;border-radius: 50%;width: 50px;height: 50px;top: 0;left: 20px;border: 3px solid #ffffff;overflow: hidden;}
 .clients_panel .clients_right .swiper-slide .g-text{padding: 30px 30px 0 20px;height: 130px;color: #000;line-height: 24px;text-align: left;font-size: 14px;}
 .clients_panel .clients_right .swiper-slide .g-text .tt{font-size: 16px;text-indent: 70px;margin-bottom: 15px;}

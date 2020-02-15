@@ -8,47 +8,75 @@ const routes = [
     path: '/',
     redirect: '/index',
     name: 'home',
-    component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue'),
+    component: () => import(/* webpackChunkName: "Home" */ '../views/front/Home.vue'),
     children: [
       {
         path: '/index',
         name: 'homePage',
-        component: () => import(/* webpackChunkName: "homePage" */ '../views/homePage/homePage.vue'),
+        component: () => import(/* webpackChunkName: "homePage" */ '../views/front/homePage/homePage.vue'),
       },
       {
         path: '/caseCenter',
         name: 'caseCenter',
-        component: () => import(/* webpackChunkName: "caseCenter" */ '../views/caseCenter/caseCenter.vue'),
+        component: () => import(/* webpackChunkName: "caseCenter" */ '../views/front/caseCenter/caseCenter.vue'),
       },
       {
         path: '/newsCenter',
         name: 'newsCenter',
-        component: () => import(/* webpackChunkName: "newsCenter" */ '../views/newsCenter/newsCenter.vue'),
+        component: () => import(/* webpackChunkName: "newsCenter" */ '../views/front/newsCenter/newsCenter.vue'),
       },
       {
         path: '/servicesupport',
         name: 'servicesupport',
-        component: () => import(/* webpackChunkName: "servicesupport" */ '../views/servicesupport/servicesupport.vue'),
+        component: () => import(/* webpackChunkName: "servicesupport" */ '../views/front/servicesupport/servicesupport.vue'),
       },
       {
         path: '/aboutOurs',
         name: 'aboutOurs',
-        component: () => import(/* webpackChunkName: "aboutOurs" */ '../views/aboutOurs/aboutOurs.vue'),
+        component: () => import(/* webpackChunkName: "aboutOurs" */ '../views/front/aboutOurs/aboutOurs.vue'),
       },
       {
         path: '/contactUs',
         name: 'contactUs',
-        component: () => import(/* webpackChunkName: "contactUs" */ '../views/contactUs/contactUs.vue'),
+        component: () => import(/* webpackChunkName: "contactUs" */ '../views/front/contactUs/contactUs.vue'),
       },
       {
         path: '/productDetail',
         name: 'productDetail',
-        component: () => import(/* webpackChunkName: "productDetail" */ '../views/productDetail/productDetail.vue'),
+        component: () => import(/* webpackChunkName: "productDetail" */ '../views/front/productDetail/productDetail.vue'),
       },
       {
         path: '/newsDetail',
         name: 'newsDetail',
-        component: () => import(/* webpackChunkName: "productDetail" */ '../views/productDetail/productDetail.vue'),
+        component: () => import(/* webpackChunkName: "productDetail" */ '../views/front/productDetail/productDetail.vue'),
+      },
+    ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "login" */ '../views/admin/Login.vue'),
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    redirect: '/admin/newsManagement',
+    component: () => import(/* webpackChunkName: "admin" */ '../views/admin/index.vue'),
+    children: [
+      {
+        path: '/admin/newsManagement',
+        name: 'newsManagement',
+        component: () => import(/* webpackChunkName: "newsManagement" */ '../views/admin/newsManagement/newsManagement.vue'),
+      },
+      {
+        path: '/admin/productManagement',
+        name: 'productManagement',
+        component: () => import(/* webpackChunkName: "productManagement" */ '../views/admin/productManagement/productManagement.vue'),
+      },
+      {
+        path: '/admin/newsEdit',
+        name: 'newsEdit',
+        component: () => import(/* webpackChunkName: "newsEdit" */ '../views/admin/newsManagement/addAndEditNews.vue'),
       },
     ]
   },

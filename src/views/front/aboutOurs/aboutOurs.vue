@@ -175,7 +175,7 @@ export default {
 .n_about{padding: 60px 0 0;background-color: #ffffff;width: 100%;}
 .n_about .m_tt{text-align: center;}
 .n_about .about .g_text{color: #666666;line-height: 28px;width: 85%;margin: 15px auto 80px;}
-.n_about .team{background:#f6f6f6 url(../../assets/aboutOurs/image/about_img1.png) no-repeat center top;height: 520px;width: 100%;}
+.n_about .team{background:#f6f6f6 url(../../../assets/aboutOurs/image/about_img1.png) no-repeat center top;height: 520px;width: 100%;}
 .n_about .team .g_text{padding-top: 160px;padding-left: 20px;color: #ffffff;line-height: 28px;width: 540px;}
 .n_about .team .g_text .g_tt{margin-bottom: 35px;}
 .n_about .culture{background-color: #f6f6f6;height: 485px;padding-top: 85px;width: 100%;}
@@ -196,7 +196,7 @@ export default {
 .n_about .service .g-img{text-align: center;margin-top: 65px;}
 .n_about .service .list{font-size: 0;position: relative;margin-top: -113px;}
 .n_about .service .list li{width: 395px;display: inline-block;height: 340px;font-size: 14px;color: #cccccc;text-align: center;text-transform: uppercase;}
-.n_about .service .list li div{height: 240px;width: 100%;background: url(../../assets/aboutOurs/image/about_ico1.png) no-repeat ;}
+.n_about .service .list li div{height: 240px;width: 100%;background: url(../../../assets/aboutOurs/image/about_ico1.png) no-repeat ;}
 .n_about .service .list li .tt{color: #666666;font-size: 22px;margin-bottom: 5px;}
 .n_about .service .list li div.ico1{background-position: 158px 140px;}
 .n_about .service .list li div.ico2{background-position: -220px 140px;}
