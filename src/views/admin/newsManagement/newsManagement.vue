@@ -6,8 +6,7 @@
       //- Button(@click="closeNews") 关闭新闻
     .list
       Table(:columns="colTitle",:data='newsList')
-    .page
-      Page(:total="pageOne.total"  @on-change="pageChange")
+      Page.page(:total="pageOne.total"  @on-change="pageChange")
 </template>
 
 <script>
@@ -62,12 +61,12 @@ export default {
         },
         {
           title: "时间",
-          key: "updateTime",
+          key: "newTime",
           render: (h, params) => {
             return h(
               "div", 
               {},
-              new Date(params.row.updateTime).Format('yyyy-MM-dd hh:mm:ss')
+              new Date(params.row.newTime).Format('yyyy-MM-dd hh:mm:ss')
             );
           }
         },
@@ -87,8 +86,10 @@ export default {
                   on: {
                     click: () => {
                       this.$router.push({
-                        path: "admin/newsEdit",
-                        query: params.row
+                        path: "/admin/newsEdit",
+                        query: {
+                          id: params.row.id
+                        }
                       });
                     }
                   }
@@ -132,7 +133,6 @@ export default {
         }
       ],
       newsList: [],
-      selectList: [],
       pageOne: {
         total: 0,
         limit: 10,
@@ -202,7 +202,8 @@ export default {
   .list
     max-width 1100px
   .page
-    position absolute
-    left 700px
-    bottom -80px
+    margin-top: 30px;
+    margin-bottom: 30px;
+    float: right;
+    margin-right: 40px;
 </style>

@@ -2,112 +2,89 @@
   .product-management
     .title3 产品管理
     .buttons
-      Button(@click="addpro") 添加产品
-      Button(@click="modal1 = true") 添加类别
-      Button(@click="categoryclick") 删除类别
+      Button(to="/admin/addOrEditorProduct") 添加产品
+      //- Button(@click="modal1 = true") 添加类别
+      //- Button(@click="categoryclick") 删除类别
     .list3
       Table.table(:columns="colTitle" :data="productList")
-      Page.page(@on-change="handleCurrentChange" :total="pageData.totalRecords"
-         :page-size="5" :current="pageData.pageNo" show-elevator)
-      Modal(v-model="modal1" title="添加类别" width="30" @on-ok="addcategory('addfromclass')")
-        Form.form(ref='addfromclass' :model='addfromclass',:label-width='0' :rules="formRules")
-          FormItem 大类型
-            RadioGroup(v-model="addfromclass.bigtype" style="margin-left:10px")
-              Radio(label="公共管理类") 公共管理类
-              Radio(label="思想政治类") 思想政治类
-          FormItem(prop='addfrom') 小类型
-            Input(v-model='addfromclass.addfrom',placeholder='请输入类别名称')
-      Modal(v-model="modal2" title="删除类别" width="30" @on-ok="")
-        RadioGroup(v-model="addfromclass.bigtype" style="margin-left:10px;margin-bottom:15px" @on-change="onchange")
-          Radio(label="公共管理类") 公共管理类
-          Radio(label="思想政治类") 思想政治类
-        Table.table(:columns="colTitle2" :data="categorylist")
-
+      Page.page(@on-change="handleCurrentChange" :total="pageOne.total"
+         :page-size="pageOne.limit" :current="pageOne.page")
 </template>
+
 <script>
+import { caseShowQry, caseUpdate, caseDel } from '@/api/index'
+
 export default {
   name: "",
   data() {
     return {
-      modal2: false,
-      page: 1,
-      formRules: {
-        // 表单正则
-        addfrom: [
-          { required: true, message: "请输入类别名称", trigger: "blur" },
-          {
-            trigger: "blur"
-          }
-        ]
+      pageOne: {
+        total: 0,
+        limit: 10,
+        page: 1
       },
-      categoryform: {
-        littlecategory: ""
-      },
-      addfromclass: {
-        addfrom: "",
-        bigtype: "公共管理类"
-      },
-      modal1: false,
-      pageData: {}, // 表格分页数据
-      colTitle2: [
+      colTitle: [
+        // {
+        //  title: "排序",
+        //  type: "index"
+        // },
         {
-          title: "排序",
-          type: "index"
+          title: "产品标题",
+          key: "title"
         },
         {
-          title: "小类别名称",
-          key: "category_name"
-        },
-        {
-          title: "操作",
-          name: "operation",
+          title: "类别",
+          key: "type",
           render: (h, params) => {
             return h("div", [
               h(
                 "span",
                 {
-                  props: {
-                    type: "text",
-                    size: "small"
-                  },
-                  style: {
-                    cursor: "pointer",
-                    margin: "0 4px",
-                    color: "skyblue"
-                  },
-                  on: {
-                    click: () => {
-                      this.categorydelete(params.row);
-                    }
-                  }
                 },
-                "删除"
+                ["医院服务类", "政府机关", "企事业办公楼", "公共服务类"][
+                params.row.type === '1'
+                  ? "0"
+                  : params.row.type === '2'
+                  ? "1"
+                  : params.row.type === "3"
+                  ? "2"
+                  : params.row.type === "4"
+                  ? "3"
+                  : "0"
+                ]
               )
             ]);
           }
-        }
-      ],
-      colTitle: [
-        {
-          title: "排序",
-          type: "index"
         },
         {
-          title: "产品名称",
-          key: "newsp_title"
-        },
-        {
-          title: "类别",
-          key: "newsp_category"
-        },
-        {
-          title: "显示时间",
-          key: "newsp_createTime",
+          title: "状态",
+          key: "isShow",
           render: (h, params) => {
             return h("div", [
-              h("span", {}, params.row.newsp_close ? "-" : params.row.newsp_createTime)
+              h(
+                "span",
+                {
+                  style: {
+                    color: params.row.isShow !== '0' ? "#fe5500" : "#00A854"
+                  }
+                },
+                "●"
+              ),
+              h(
+                "span",
+                {
+                  style: {
+                    color: params.row.isShow !== '0' ? "#fe5500" : "#00A854"
+                  }
+                },
+                params.row.isShow !== '0' ? "已关闭" : "已开启"
+              )
             ]);
           }
+        },
+        {
+          title: "创建时间",
+          key: "createTime",
         },
         {
           title: "操作",
@@ -130,7 +107,9 @@ export default {
                     click: () => {
                       this.$router.push({
                         path: "/admin/addOrEditorProduct",
-                        query: params.row
+                        query: {
+                          id: params.row.id
+                        }
                       });
                     }
                   }
@@ -151,7 +130,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.confirmdelete(params.row);
+                      this.deleteProduct(params.row.id);
                     }
                   }
                 },
@@ -167,156 +146,60 @@ export default {
                   },
                   on: {
                     click: () => {
-                      const data = {
-                        id: params.row.id,
-                        newsm_close: !params.row.newsp_close
-                      };
-                      this.updataProduct(data, () => {
-                        params.row.newsp_close = !params.row.newsp_close;
-                      });
+                      this.operateStatus(params.row)
                     }
                   }
                 },
-                params.row.newsp_close ? "开启" : "关闭"
+                params.row.isShow !== '0' ? "开启" : "关闭"
               )
             ]);
           }
         }
       ],
       productList: [],
-      categorylist: []
     };
   },
   methods: {
-    // 删除类别
-    categorydelete(row) {
-      this.$Modal.confirm({
-        title: "系统提示",
-        content: "<p>你确定要删除这些数据吗?</p>",
-        onOk: () => {
-          const ids = [];
-          ids.push(row.category_name);
-          const data = {};
-          data.ids = JSON.stringify(ids);
-          this.$http.deletecategory(data).then(res => {
-            if (res.data.success) {
-              this.$Message.success("删除成功");
-              this.findcategory();
-            } else {
-              this.$Message.error(res.data.message);
-            }
-          });
-        }
-      });
-    },
-    onchange() {
-      // console.log(this.addfromclass.bigtype)
-      this.findcategory();
-    },
-    categoryclick() {
-      this.modal2 = true;
-      this.findcategory();
-    },
-    // 查询类别
-    findcategory() {
-      const data = {
-        category_categoryType: this.addfromclass.bigtype,
-        pageNo: 1,
-        pageSize: 20
-      };
-      this.$http.findcategory(data).then(res => {
-        if (res.data.success) {
-          this.categorylist = res.data.data.list;
-          // console.log(this.addfrom);
-          this.$forceUpdate();
-          // this.$nextTick(() => {
-          //   this.addfrom.category = this.activeCategory;
-          // });
-        }
-      });
-    },
-    addpro() {
-      this.$router.push({
-        path: "/admin/addOrEditorProduct"
-      });
-    },
     // 分页
-    handleCurrentChange(page) {
-      this.page = page;
+    handleCurrentChange(value) {
+      this.pageOne.page = value;
       this.listNewsProductRequest();
     },
-    // 添加类别
-    addcategory(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          const data = {
-            category_name: this.addfromclass.addfrom,
-            category_categoryType: this.addfromclass.bigtype
-          };
-          this.$http.addcategory(data).then(res => {
-            if (res.data.success) {
-              this.$Message.success("添加成功");
-              this.addfromclass = {
-                addfrom: "",
-                bigtype: "公共管理类"
-              };
-              this.$forceUpdate();
-            }
-          });
-        } else {
-          this.$Message.error("请填写");
+    // 关闭/开启案例
+    operateStatus(data) {
+      let params = JSON.parse(JSON.stringify(data))
+      params = {
+        ...params,
+        isShow: params.isShow === '0' ? '1' : '0'
+      }
+      caseUpdate(params).then(res => {
+        console.log(res)
+        if(res.data.code === 200) {
+          this.$Message.success("状态修改成功")
+          this.listNewsProductRequest()
         }
-      });
-    },
-    // 关闭
-    updataProduct(data, cb) {
-      this.$http.updataProduct(data).then(res => {
-        if (res.data.success) {
-          if (typeof cb === "function") {
-            cb();
-          }
-        }
-      });
-    },
-    // 弹出删除产品模态框
-    confirmdelete(row) {
-      this.$Modal.confirm({
-        title: "系统提示",
-        content: "<p>你确定要删除这些数据吗?</p>",
-        onOk: () => {
-          this.deleteproduct(row);
-        }
-      });
+      })
     },
     // 删除产品
-    deleteproduct(row) {
-      // console.log(row.id)
-      const data = {
-        ids: [row.id]
-      };
-      data.ids = JSON.stringify(data.ids);
-      this.$http.deleteproduct(data).then(res => {
-        if (res.data.success) {
-          this.$Message.success("删除成功");
-          this.listNewsProductRequest();
-        } else {
-          this.$Message.error("删除失败");
+    deleteProduct(id) {
+      let params = `id=${id}`
+      caseDel(params).then(res => {
+        if(res.data.code === 200) {
+          this.$Message.success("删除成功")
+          this.listNewsProductRequest()
         }
-      });
+      })
     },
     // 查询产品
     listNewsProductRequest() {
-      this.$http
-        .listNewsProductRequest({
-          pageNo: this.page,
-          pageSize: 5
-        })
-        .then(res => {
-          if (res.data.success) {
-            this.productList = res.data.data.list;
-            this.pageData = res.data.data;
-          }
-        });
+      let params = `pageNum=${this.pageOne.page}&pageSize=${this.pageOne.limit}&type=0`
+      caseShowQry(params).then(res => {
+        console.log(res)
+        if(res.data.code === 200 && res.data.data.records) {
+          this.pageOne.total = res.data.data.total
+          this.productList = res.data.data.records
+        }
+      })
     }
   },
   created() {
@@ -346,8 +229,10 @@ export default {
     max-width: 1100px;
 
     .page {
-      margin-top: 40px;
+      margin-top: 30px;
+      margin-bottom: 30px;
       float: right;
+      margin-right: 40px;
     }
 
     .table {

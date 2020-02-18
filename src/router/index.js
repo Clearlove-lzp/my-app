@@ -53,14 +53,14 @@ const routes = [
     ]
   },
   {
-    path: '/login',
+    path: '/admin/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '../views/admin/Login.vue'),
   },
   {
     path: '/admin',
     name: 'admin',
-    redirect: '/admin/newsManagement',
+    // redirect: '/admin/login',
     component: () => import(/* webpackChunkName: "admin" */ '../views/admin/index.vue'),
     children: [
       {
@@ -78,6 +78,11 @@ const routes = [
         name: 'newsEdit',
         component: () => import(/* webpackChunkName: "newsEdit" */ '../views/admin/newsManagement/addAndEditNews.vue'),
       },
+      {
+        path: '/admin/addOrEditorProduct',
+        name: 'addOrEditorProduct',
+        component: () => import(/* webpackChunkName: "addOrEditorProduct" */ '../views/admin/productManagement/addOrEditorProduct.vue'),
+      },
     ]
   },
 ]
@@ -86,9 +91,30 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to,from,next) => {
+// router.beforeEach((to,from,next) => {
+//   window.scrollTo(0,0);
+//   next()
+// });
+
+router.beforeEach((to, from, next) => {
+  const TOKEN = window.sessionStorage.getItem("TOKEN");
+  if(TOKEN === "znwy") {
+    next()
+  }else {
+    if(to.path.includes("admin")) {
+      if(to.path.includes("login")) {
+        next()
+      }else{
+        next({
+          path: "/admin/login"
+        });
+      }
+    }else{
+      next()
+    }
+  }
   window.scrollTo(0,0);
-  next()
 });
+
 
 export default router

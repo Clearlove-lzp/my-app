@@ -16,7 +16,7 @@
             div.imgBox
               img(:src="p.newsp_path")
             //- .time {{p.newsp_createTime}}
-            .name {{p.newsp_title}}
+            .name {{p.title}}
         Button(type='text' @click="moreCase") 查看更多案例&nbsp;&gt;&gt;
     .clients_panel
       .p_absolute
@@ -84,6 +84,7 @@
 <script>
 import carousel from './carousel'
 import common from './index.js'
+import { caseShowQry, fileDetail } from '@/api/index'
 
 export default {
   props: {},
@@ -176,16 +177,19 @@ export default {
   },
   computed: {},
   methods: {
+    // 产品详情
     goProductDetail() {
       this.$router.push('/productDetail')
       sessionStorage.setItem("newsType", '案例中心');
       this.$bus.$emit("updateNewsType");
     },
+    // 新闻详情
     goNewsDetail() {
       this.$router.push('/newsDetail')
       sessionStorage.setItem("newsType", '新闻中心');
       this.$bus.$emit("updateNewsType");
     },
+    // 更多产品
     moreCase() {
       sessionStorage.setItem("newsType", '案例中心');
       this.$bus.$emit("updateNewsType");
@@ -193,11 +197,39 @@ export default {
         path: '/caseCenter'
       })
     },
+    // 更多新闻
     moreNews() {
       sessionStorage.setItem("newsType", '新闻中心');
       this.$bus.$emit("updateNewsType");
       this.$router.push({
         path: '/newsCenter'
+      })
+    },
+    // 查询产品
+    listNewsProductRequest() {
+      let params = `pageNum=1&pageSize=8&type=0`
+      caseShowQry(params).then(res => {
+        if(res.data.code === 200 && res.data.data.records) {
+          this.productsList = res.data.data.records
+          if(this.productsList.length > 0) {
+            this.getCaseImage(res.data.data.records)
+          }
+        }
+      })
+    },
+    // 查询案例图片
+    getCaseImage(data) {
+      let ids = ""
+      let arr = []
+      data.forEach(item => {
+        arr.push(item.pid)
+      })
+      ids = arr.join(",")
+      let params = `ids=${ids}`
+      fileDetail(params).then(res => {
+        if(res.data.code === 200 && res.data.data && res.data.data.length > 0) {
+          console.log(res.data.data)
+        }
       })
     }
   },
@@ -207,7 +239,9 @@ export default {
       common()
     })
   },
-  created() {},
+  created() {
+    this.listNewsProductRequest()
+  },
 }
 </script>
 

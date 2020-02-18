@@ -45,12 +45,16 @@ export default {
         this.loading = false;
         if(res.data.code === 200) {
           this.$Message.success("登录成功")
+          window.sessionStorage.setItem("TOKEN", "znwy")
           this.$router.push({
-            path: '/admin'
+            path: '/admin/newsManagement'
           })
         }else {
           this.$Message.error(res.data.msg)
         }
+      }, err => {
+        this.loading = false;
+        this.$Message.error("登录失败")
       })
     }
   }

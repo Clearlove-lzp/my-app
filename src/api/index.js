@@ -20,6 +20,17 @@ export function newShowQry(data) {
   );
 }
 
+// 新闻详情
+export function newInfo(data) {
+  return fetchGet(url + `/znwy/new/newInfo?` + data).then(
+    res => {
+      return Promise.resolve(res);
+    },
+    err => {
+      return Promise.reject(err);
+    }
+  );
+}
 
 // 删除新闻
 export function newDel(data) {
@@ -61,6 +72,18 @@ export function updateNews(data) {
 // 文件上传
 export const upLoadUrl = url + "/znwy/sysFile/upload";
 
+// 根据id查询文件
+export function fileDetail(data) {
+  return fetchGet(url + "/znwy/sysFile/ids?" + data).then(
+    res => {
+      return Promise.resolve(res);
+    },
+    err => {
+      return Promise.reject(err);
+    }
+  );
+}
+
 // 文件删除
 export function deleteFile(data) {
   return axios.delete(url + "/znwy/sysFile/delFile?" + data).then(
@@ -85,3 +108,66 @@ export function loginUser(data) {
   );
 }
 
+
+// 查询产品
+export function caseShowQry(data) {
+  return fetchGet(url + `/znwy/case/caseShowQry?` + data).then(
+    res => {
+      return Promise.resolve(res);
+    },
+    err => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+
+// 添加产品
+export function caseAdd(data) {
+  return fetchPost(url + "/znwy/case/caseAdd", data).then(
+    res => {
+      return Promise.resolve(res);
+    },
+    err => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+
+// 修改产品
+export function caseUpdate(data) {
+  return fetchPost(url + "/znwy/case/caseUpdate", data).then(
+    res => {
+      return Promise.resolve(res);
+    },
+    err => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+// 删除新闻
+export function caseDel(data) {
+  return axios.delete(url + "/znwy/case/caseDel?" + data).then(
+    res => {
+      return Promise.resolve(res);
+    },
+    err => {
+      return Promise.reject(err);
+    }
+  );
+}
+
+
+// 产品详情
+export function caseInfo(data) {
+  return fetchGet(url + `/znwy/case/caseInfo?` + data).then(
+    res => {
+      return Promise.resolve(res);
+    },
+    err => {
+      return Promise.reject(err);
+    }
+  );
+}

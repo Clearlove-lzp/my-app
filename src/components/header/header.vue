@@ -97,6 +97,8 @@ export default {
     //   this.$router.push({ path: "/productDetail" });
     // },
     backHome() {
+      sessionStorage.setItem("newsType", "首页");
+      this.$bus.$emit("updateNewsType");
       this.$router.push({ path: "/index" });
     },
     changePage(item) {
@@ -127,6 +129,8 @@ export default {
   },
   created() {
     this.getMenuLocation()
+  },
+  mounted() {
     this.$bus.$on("updateNewsType", res => {
       this.getMenuLocation();
     });

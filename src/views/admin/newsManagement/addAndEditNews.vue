@@ -7,7 +7,7 @@
       Form(ref="form",:label-width="80" :model="formData" :rules="ruleValidate")
         FormItem(label="封面：")
           <span slot="label"><span class="xing">*</span><span>封面：</span></span>
-          Upload(ref="upload" :action="upLoadUrl",:before-upload="handleUpload",:data='{id:this.newId}' :default-file-list="defaultFileList" :format="['jpg','jpeg','png']" :on-format-error="handleFormatError" :on-success="handleSuccess" :on-remove="handleRemove")
+          Upload(ref="upload" :action="upLoadUrl",:before-upload="handleUpload", :default-file-list="defaultFileList" :format="['jpg','jpeg','png']" :on-format-error="handleFormatError" :on-success="handleSuccess" :on-remove="handleRemove")
             Button 选择文件
         FormItem(label="时间：" prop="newTime")
           DatePicker(type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="Select date" v-model="formData.newTime")
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { addNews, upLoadUrl, deleteFile } from '@/api/index'
+import { addNews, upLoadUrl, deleteFile, newInfo, fileDetail, updateNews } from '@/api/index'
 import { quillEditor } from "vue-quill-editor";
 import * as Quill from "quill"; // 引入编辑器
 // quill编辑器的字体
@@ -47,12 +47,9 @@ export default {
   data() {
     return {
       formData: {
-        //type: "",
         newTime: "",
         title: "",
-        //remark: "",
         des: "",
-        //sort: "",
         pid: ""
       },
       ruleValidate: {
@@ -103,7 +100,6 @@ export default {
       loading: false,
       upLoadUrl: '',
       uploadList: [],
-      newId: "",
       defaultFileList: [],
       isEdit: false // 页面是否为编辑页面
     };
@@ -111,6 +107,7 @@ export default {
   methods: {
     // 删除文件
     handleRemove(file) {
+      console.log(file)
       let params = `id=${file.response.data}`
       deleteFile(params).then(res => {
         if(res.data.code === 200) {
@@ -144,38 +141,80 @@ export default {
         if(valid) {
           let params = JSON.parse(JSON.stringify(this.formData))
           params.newTime = new Date(params.newTime).Format("yyyy-MM-dd hh:mm:ss")
-          params.isShow = '0';
-          console.log(params)
-          this.loading = true
-          addNews(params).then(res => {
-            this.loading = false
-            if(res.data.code === 200) {
-              this.$Message.success("创建成功")
-              this.$router.push({
-                path: '/admin/newsManagement'
-              })
-            }
-          })
+          if(this.isEdit) {
+            // 修改
+            this.loading = true
+            updateNews(params).then(res => {
+              this.loading = false;
+              if(res.data.code === 200) {
+                this.$Message.success("修改成功")
+                this.$router.push({
+                  path: '/admin/newsManagement'
+                })
+              }else {
+                this.$Message.error("修改失败")
+              }
+            }, err => {
+              this.loading = false;
+              this.$Message.error("修改失败")
+            })
+          }else {
+            // 创建
+            params.isShow = '0';
+            this.loading = true
+            addNews(params).then(res => {
+              this.loading = false
+              if(res.data.code === 200) {
+                this.$Message.success("创建成功")
+                this.$router.push({
+                  path: '/admin/newsManagement'
+                })
+              }else{
+                this.$Message.error("创建失败")
+              }
+            }, err => {
+              this.loading = false;
+              this.$Message.error("创建失败")
+            })
+          }
         }else {
           this.$Message.error("请填写完整")
         }
       })
     },
+    // 根据文件id查询文件
+    getFileById() {
+      let params = `ids=${this.formData.pid}`
+      fileDetail(params).then(res => {
+        console.log(res)
+        if(res.data.code === 200 && res.data.data && res.data.data.length > 0) {
+          this.defaultFileList = [
+            {
+              name: res.data.data[0].fileName,
+              url: res.data.data[0].filePath,
+              response: {
+                id: res.data.data[0].id
+              }
+            }
+          ]
+          this.$nextTick(() => {
+            this.uploadList = this.$refs.upload.fileList;
+          })
+        }
+      })
+    },
     // 根据Id查询新闻
     getNewsManageById(id) {
-      this.$http.getNewsManageById({ id }).then(res => {
-        if (res.data.success) {
-          //
-          this.formData.newsm_close = res.data.data.newsm_close;
-          this.formData.type = res.data.data.newsm_newsType;
-          this.formData.title = res.data.data.newsm_title;
-          this.formData.date = res.data.data.newsm_releaseTime;
-          this.formData.id = res.data.data.id;
-          this.formData.remark = res.data.data.newsm_remark;
-          this.formData.sort = res.data.data.newsm_seq;
-          this.formData.content = res.data.data.newsm_content;
+      let params = `id=${id}`
+      newInfo(params).then(res => {
+        console.log(res)
+        if(res.data.code === 200 && res.data.data) {
+          this.formData = res.data.data
+          if(res.data.data.pid) {
+            this.getFileById()
+          }
         }
-      });
+      })
     },
   },
   created() {
@@ -207,6 +246,7 @@ export default {
 .news-content
   width 70%
 .buttons
+  margin-bottom 20px
   padding-left 80px
   button
     margin 5px

@@ -1,11 +1,11 @@
 <template lang='pug'>
   div.left-bar
     .menu
-      Menu(:theme="theme" active-name="news")
+      Menu(:theme="theme" :active-name="activeIndex")
         MenuItem(
           v-for="(item, index) of menuItemList"
           :key='index'
-          :name="item.name"
+          :name="index"
           @click.native="goLink(item)")
           Icon(:type="item.iconType")
           | {{item.content}}
@@ -48,15 +48,32 @@ export default {
         //   content: "校徽管理",
         //   path: "/admin/schoolBadge"
         // }
-      ]
+      ],
+      activeIndex: 0
     };
   },
   methods: {
     goLink(item) {
+      sessionStorage.setItem("newsType", item.content);
       this.$router.push({
         path: item.path
       });
+    },
+    getMenuLocation() {
+      let newsType = sessionStorage.getItem("newsType")
+      if(newsType) {
+        this.menuItemList.forEach((item, index) => {
+          if(item.content === newsType) {
+            this.activeIndex = index
+          }
+        })
+      }else{
+        this.activeIndex = 0
+      }
     }
+  },
+  created() {
+    this.getMenuLocation()
   }
 };
 </script>
