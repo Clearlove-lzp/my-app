@@ -12,7 +12,7 @@
           .productTabsItem
             //- Button(v-for="(c, index) of categoryList" :type="categoryIndex === index ? 'primary' : 'default'" @click="changeProductView(index)") {{c.name}}
         .productsView
-          .productItem(v-for="(p, index) of productsList" @click="goProductDetail")
+          .productItem(v-for="(p, index) of productsList" @click="goProductDetail(p.id)")
             div.imgBox
               img(:src="p.newsp_path")
             //- .time {{p.newsp_createTime}}
@@ -68,15 +68,15 @@
         .productTabs
           .productTabsItem
         .newsBox
-          .newItem(v-for='(item,index) in newList',:key='index' @click="goNewsDetail")
+          .newItem(v-for='(item,index) in newList',:key='index' @click="goNewsDetail(item.id)")
             .date
               .day {{item.day}}
               .year {{item.year}}
             .new
               .newTitle
                 i(v-if='index < 3').iconfont.iconhot
-                span {{item.newsm_title}}
-              .newContent {{item.newsm_remark}}
+                span {{item.title}}
+              .newContent {{item.remark}}
         Button(type='text' @click="moreNews") 查看更多新闻&nbsp;&gt;&gt;
   </div>
 </template>
@@ -84,92 +84,15 @@
 <script>
 import carousel from './carousel'
 import common from './index.js'
-import { caseShowQry, fileDetail } from '@/api/index'
+import { caseShowQry, fileDetail, newShowQry } from '@/api/index'
+import { url as imgUrl } from '@/api/urlConfig'
 
 export default {
   props: {},
   data () {
     return {
-      productsList: [
-        {
-          newsp_path: require('@/assets/homepage/image/jdanli_06.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          newsp_path: require('@/assets/homepage/image/jdanli_08.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          newsp_path: require('@/assets/homepage/image/jdanli_13.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          newsp_path: require('@/assets/homepage/image/jdanli_06.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          newsp_path: require('@/assets/homepage/image/jdanli_08.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          newsp_path: require('@/assets/homepage/image/jdanli_13.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          newsp_path: require('@/assets/homepage/image/jdanli_06.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          newsp_path: require('@/assets/homepage/image/jdanli_08.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        }
-      ],
-      newList: [
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-      ]
+      productsList: [],
+      newList: []
     };
   },
   components: {
@@ -178,14 +101,24 @@ export default {
   computed: {},
   methods: {
     // 产品详情
-    goProductDetail() {
-      this.$router.push('/productDetail')
+    goProductDetail(id) {
+      this.$router.push({
+        path: '/productDetail',
+        query: {
+          id: id
+        }
+      })
       sessionStorage.setItem("newsType", '案例中心');
       this.$bus.$emit("updateNewsType");
     },
     // 新闻详情
-    goNewsDetail() {
-      this.$router.push('/newsDetail')
+    goNewsDetail(id) {
+      this.$router.push({
+        path: '/newsDetail',
+        query: {
+          id: id
+        }
+      })
       sessionStorage.setItem("newsType", '新闻中心');
       this.$bus.$emit("updateNewsType");
     },
@@ -203,6 +136,26 @@ export default {
       this.$bus.$emit("updateNewsType");
       this.$router.push({
         path: '/newsCenter'
+      })
+    },
+    // 查询新闻
+    listNewsManageRequest() {
+      let params = `pageNum=1&pageSize=6`
+      newShowQry(params).then(res => {
+        if(res.data.code === 200 && res.data.data.records) {
+          this.newList = res.data.data.records
+          this.newList.forEach(item => {
+            const index1 = item.newTime.indexOf("-");
+            const year = item.newTime.slice(0, index1);
+            item.year = year;
+            const other = item.newTime.slice(index1);
+            const index2 = other.indexOf(" ");
+            const day = other.slice(1, index2);
+            item.day = day;
+            const time = other.slice(index2 + 1);
+            item.time = time;
+          });
+        }
       })
     },
     // 查询产品
@@ -228,7 +181,14 @@ export default {
       let params = `ids=${ids}`
       fileDetail(params).then(res => {
         if(res.data.code === 200 && res.data.data && res.data.data.length > 0) {
-          console.log(res.data.data)
+          res.data.data.forEach(item => {
+            this.productsList.forEach(item1 => {
+              if(item.id === item1.pid) {
+                item1.newsp_path = imgUrl + '/file/' + item.srcPath
+              }
+            })
+          })
+          this.$forceUpdate()
         }
       })
     }
@@ -241,6 +201,7 @@ export default {
   },
   created() {
     this.listNewsProductRequest()
+    this.listNewsManageRequest();
   },
 }
 </script>

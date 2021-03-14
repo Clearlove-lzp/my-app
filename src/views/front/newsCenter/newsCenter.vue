@@ -6,7 +6,7 @@
     //- div.button
     //-   div.eachButton(v-for="(item, index) in newsTitle",:key="index",:class="{'highLight': type == item}",@click="selectButton(item)") {{item}}
     div.newsList
-      div.eachNews(v-for="(item, index) in dataArr1",:key=" index",@click="showDetail(index)")
+      div.eachNews(v-for="(item, index) in dataArr1",:key=" index",@click="showDetail(item)")
         div.left
           p.day {{item.day}}
           p.year {{item.year}}
@@ -15,9 +15,9 @@
           img(v-show="!item.newsm_path",src="@/assets/caseAndnews/aaa.png")
         div.right
           span(v-show="index < 3 && info.pageNo === 1").hot Hot
-          p.title(:class="{'leftPadding': index < 3 && info.pageNo === 1}") {{item.newsm_title}}
-          p.content {{item.newsm_remark}}
-          p.time {{item.time}}
+          p.title(:class="{'leftPadding': index < 3 && info.pageNo === 1}") {{item.title}}
+          p.content {{item.remark}}
+          // p.time {{item.time}}
     div.page(v-show="totalPages1 > 3")
       Page(:total="totalPages1", :page-size="info.pageSize" @on-change="change")
     //- div.page(v-show="type=='行业新闻' && totalPages2 > 30")
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { newShowQry, fileDetail } from "@/api/index"
+import { url as imaUrl } from '@/api/urlConfig'
 
 export default {
   name: "newsInfo",
@@ -45,61 +47,21 @@ export default {
       totalPages2: 0,
       pageSize1: 3,
       pageSize2: 3,
-      dataArr: [
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-        {
-          day: '10-25',
-          year: '2019',
-          newsm_title: '三桥老街西城往事',
-          newsm_remark: '三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事'
-        },
-      ],
+      dataArr: [],
       dataArr1: []
     };
   },
   methods: {
-    showDetail(index) {
-      const obj = {};
-      obj.id = this.dataArr[index].id;
-      obj.type = this.type;
-      window.sessionStorage.setItem("newsId", JSON.stringify(obj));
+    showDetail(obj) {
+      // const obj = {};
+      // obj.id = this.dataArr[index].id;
+      // obj.type = this.type;
+      // window.sessionStorage.setItem("newsId", JSON.stringify(obj));
       this.$router.push({
-        path: "/newsDetail"
+        path: "/newsDetail",
+        query: {
+          id: obj.id
+        }
       });
     },
     showMore() {
@@ -139,12 +101,59 @@ export default {
       })
       this.dataArr1 = arr
       this.totalPages1 = this.dataArr.length;
+    },
+    // 查询新闻
+    listNewsManageRequest() {
+      let params = `pageNum=${this.info.pageNo}&pageSize=${this.info.pageSize}`
+      newShowQry(params).then(res => {
+        if(res.data.code === 200 && res.data.data.records) {
+          this.dataArr1 = res.data.data.records
+          this.dataArr1.forEach(item => {
+            const index1 = item.newTime.indexOf("-");
+            const year = item.newTime.slice(0, index1);
+            item.year = year;
+            const other = item.newTime.slice(index1);
+            const index2 = other.indexOf(" ");
+            const day = other.slice(1, index2);
+            item.day = day;
+            const time = other.slice(index2 + 1);
+            item.time = time;
+          });
+          this.totalPages1 = res.data.data.total
+          if(this.dataArr1.length > 0) {
+            this.getCaseImage(res.data.data.records)
+          }
+        }
+      })
+    },
+    // 查询案例图片
+    getCaseImage(data) {
+      let ids = ""
+      let arr = []
+      data.forEach(item => {
+        arr.push(item.pid)
+      })
+      ids = arr.join(",")
+      let params = `ids=${ids}`
+      fileDetail(params).then(res => {
+        if(res.data.code === 200 && res.data.data && res.data.data.length > 0) {
+          res.data.data.forEach(item => {
+            this.dataArr1.forEach(item1 => {
+              if(item.id === item1.pid) {
+                item1.newsm_path = imaUrl + '/file/' + item.srcPath
+              }
+            })
+          })
+          this.$forceUpdate()
+        }
+      })
     }
   },
   mounted() {
   },
   created() {
-    this.getNewsList()
+    // this.getNewsList()
+    this.listNewsManageRequest();
   }
 };
 </script>

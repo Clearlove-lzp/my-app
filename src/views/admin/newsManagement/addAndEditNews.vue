@@ -13,8 +13,8 @@
           DatePicker(type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="Select date" v-model="formData.newTime")
         FormItem(label="标题：" prop="title")
           Input(v-model="formData.title" placeholder="enter title")
-        //FormItem(label="摘要")
-          //Input(type="textarea" v-model="formData.remark" :autosize="{minRow: 2, maxRow: 4}")
+        FormItem(label="摘要：" prop="remark")
+          Input(type="textarea" v-model="formData.remark" :autosize="{minRow: 2, maxRow: 4}")
         FormItem(label="内容：" prop="des")
           quill-editor(v-model="formData.des",:options="editorOption")
         //FormItem(label="排序")
@@ -50,7 +50,8 @@ export default {
         newTime: "",
         title: "",
         des: "",
-        pid: ""
+        pid: "",
+        remark: ""
       },
       ruleValidate: {
         newTime: [
@@ -69,6 +70,13 @@ export default {
           }
         ],
         des: [
+          {
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }
+        ],
+        remark: [
           {
             required: true,
             message: '不能为空',

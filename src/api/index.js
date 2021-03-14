@@ -1,12 +1,7 @@
 import {fetchPost, fetchGet } from '../axiosConfig/index'
 import axios from "axios";
 
-let url = '';
-if (process.env.NODE_ENV === 'production') {
-  url = window.location.host;
-} else if (process.env.NODE_ENV === 'development') {
-  url = '/api'
-}
+import { url } from './urlConfig'
 
 // 查询新闻
 export function newShowQry(data) {

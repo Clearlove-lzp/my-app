@@ -72,7 +72,7 @@ export default {
           const sContent =            "<div style='width: 287px;position: relative'>" +
             "<h4 style='margin:0 0 5px 0;padding:0.2em 0;font-size: 20px;rgba(28,34,44,1)'>中诺物业</h4>" +
             "<p style='margin-bottom:5px;line-height:1.5;font-size:12px;color:rgba(42,46,54,0.75);line-height:24px;'>天津市武清区京滨工业园京滨睿城6号楼102室</p>" +
-            "<p style='color: font-size:14px;font-family:MicrosoftYaHeiUI-Bold;font-weight:bold;color:rgba(65,151,232,1);line-height:24px;font-size: 14px'><img id='imgDemo1' src='./img/Group.png' width='14' style='margin-right:10px;' height='14'/><span style='margin-right: 33px'>沙立强</span><img id='imgDemo' src='./img/Bitmap_1.png' width='14' style='margin-right:10px' height='14'><span style=';font-size: 14px'>022-22258770</span></p>" +
+            "<p style='color: font-size:14px;font-family:MicrosoftYaHeiUI-Bold;font-weight:bold;color:rgba(65,151,232,1);line-height:24px;font-size: 14px'><img id='imgDemo1' src='./static/img/Group.png' width='14' style='margin-right:10px;' height='14'/><span style='margin-right: 33px'>沙立强</span><img id='imgDemo' src='./static/img/Bitmap_1.png' width='14' style='margin-right:10px' height='14'><span style=';font-size: 14px'>022-22258770</span></p>" +
             "<div style='position:absolute;left:-45px;top:0;width:40px;height:40px;background:rgba(65,151,232,1);color:#FFF;text-align: center;line-height: 40px;font-size:18px;font-weight:bold;'>津</div>" +
             "</div>";
           // 百度地图API功能

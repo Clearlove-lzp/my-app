@@ -23,7 +23,7 @@
         div.imgBox
           img(:src="x.newsp_path")
         //- .time {{x.newsp_createTime}}
-        .title {{x.newsp_title}}
+        .title {{x.title}}
     //- .page
     //-   Page(:total="type=='公共管理类' ? totalPages1 : totalPages2",@on-change="change")
     //- .showMore(@click="showMore",ref="showMore",v-show="type=='公共管理类'") 查看更多&gt;
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { caseShowQry, fileDetail } from '@/api/index'
+import { url as imaUrl } from '@/api/urlConfig'
 
 export default {
   components: {
@@ -55,110 +57,23 @@ export default {
       categoryIndex: -1,
       categoryList: [
         {
-          category_name: '医院服务类'
+          category_name: '医院服务类',
+          no: "1"
         },
         {
-          category_name: '政府机关'
+          category_name: '政府机关',
+          no: "2"
         },
         {
-          category_name: '企事业办公楼'
+          category_name: '企事业办公楼',
+          no: "3"
         },
         {
-          category_name: '公共服务类'
+          category_name: '公共服务类',
+          no: "4"
         },
       ], // 类别列表
-      productsList: [
-        {
-          type: '医院服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_06.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '医院服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_08.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '医院服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_13.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '医院服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_06.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '医院服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_08.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '政府机关',
-          newsp_path: require('@/assets/homepage/image/jdanli_13.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '政府机关',
-          newsp_path: require('@/assets/homepage/image/jdanli_06.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '政府机关',
-          newsp_path: require('@/assets/homepage/image/jdanli_08.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '政府机关',
-          newsp_path: require('@/assets/homepage/image/jdanli_13.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '企事业办公楼',
-          newsp_path: require('@/assets/homepage/image/jdanli_06.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '企事业办公楼',
-          newsp_path: require('@/assets/homepage/image/jdanli_08.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '公共服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_13.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '公共服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_06.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '公共服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_08.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-        {
-          type: '公共服务类',
-          newsp_path: require('@/assets/homepage/image/jdanli_13.jpg'),
-          newsp_createTime: "2019-11-11",
-          newsp_title: "三桥老街西城往事"
-        },
-      ],
+      productsList: [],
       productsList2: [],
       // category: "公共管理类",
       type: "公共管理类",
@@ -177,9 +92,12 @@ export default {
       }
     },
     showProductDetail(x) {
-      window.sessionStorage.setItem("productDetail", x.id);
+      // window.sessionStorage.setItem("productDetail", x.id);
       this.$router.push({
-        path: "productDetail"
+        path: "productDetail",
+        query: {
+          id: x.id
+        }
       });
     },
     selectButton(item) {
@@ -199,13 +117,14 @@ export default {
     alllist() {
       this.productsList2 = JSON.parse(JSON.stringify(this.productsList))
       this.totalRecords = this.productsList2.length
+      this.categoryIndex = -1
       // this.showCategoryTypeList = false
     },
     changeProductView(index, c) {
       this.categoryIndex = index;
       let arr = []
       this.productsList.forEach(item => {
-        if(c.category_name === item.type) {
+        if(c.no === item.type) {
           arr.push(item)
         }
       })
@@ -214,11 +133,47 @@ export default {
       // this.showCategoryTypeList = false
       this.change();
     },
+    // 查询产品
+    listNewsProductRequest() {
+      let params = `pageNum=1&pageSize=8&type=0`
+      caseShowQry(params).then(res => {
+        if(res.data.code === 200 && res.data.data.records) {
+          this.productsList = res.data.data.records
+          if(this.productsList.length > 0) {
+            this.getCaseImage(res.data.data.records)
+          }
+        }
+      })
+    },
+    // 查询案例图片
+    getCaseImage(data) {
+      let ids = ""
+      let arr = []
+      data.forEach(item => {
+        arr.push(item.pid)
+      })
+      ids = arr.join(",")
+      let params = `ids=${ids}`
+      fileDetail(params).then(res => {
+        if(res.data.code === 200 && res.data.data && res.data.data.length > 0) {
+          res.data.data.forEach(item => {
+            this.productsList.forEach(item1 => {
+              if(item.id === item1.pid) {
+                item1.newsp_path = imaUrl + '/file/' + item.srcPath
+              }
+            })
+          })
+          this.$forceUpdate()
+          this.alllist()
+        }
+      })
+    }
   },
   mounted() {
   },
   created() {
-    this.alllist();
+    this.listNewsProductRequest()
+    // this.alllist();
   }
 };
 </script>

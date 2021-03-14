@@ -194,7 +194,6 @@ export default {
     listNewsProductRequest() {
       let params = `pageNum=${this.pageOne.page}&pageSize=${this.pageOne.limit}&type=0`
       caseShowQry(params).then(res => {
-        console.log(res)
         if(res.data.code === 200 && res.data.data.records) {
           this.pageOne.total = res.data.data.total
           this.productList = res.data.data.records

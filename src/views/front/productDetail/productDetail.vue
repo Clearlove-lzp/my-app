@@ -10,26 +10,24 @@
           Breadcrumb-item(v-if="location === '新闻详情'",to="/newsCenter") 新闻中心
           Breadcrumb-item(v-if="location === '案例详情'",to="/caseCenter") 案例中心
       .detailBox
-        p.title {{data.newsm_title}} {{data.newsp_title}}
-        p.time {{data.newsm_createTime}} {{data.newsp_createTime}}
-        div.newsm_content(v-html="data.newsm_content || data.newsp_content")
-      .preOrnext(v-show="location === '新闻详情'")
+        p.title {{data.title}}
+        p.time {{data.createTime}}
+        div.newsm_content(v-html="data.des")
+      // .preOrnext(v-show="location === '新闻详情'")
         p.pre(v-show="data1.newsm_title",@click="showPreOrNext('上一篇')") 上一篇&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{data1.newsm_title}}
         p.next(v-show="data2.newsm_title",@click="showPreOrNext('下一篇')") 下一篇&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{data2.newsm_title}}
 </template>
 
 <script>
+import { caseInfo, newInfo } from '@/api/index'
+
 export default {
   name: "newsDetail",
   components: {
   },
   data() {
     return {
-      data: {
-        newsm_title: '三桥老街西城往事',
-        newsm_createTime: '2019-12-12',
-        newsm_content: "<p>三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事, 三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事三桥老街西城往事</p>"
-      },
+      data: {},
       data1: {},
       data2: {
       },
@@ -77,6 +75,24 @@ export default {
           }
         });
     },
+    // 根据Id查询新闻
+    getNewsManageById(id) {
+      let params = `id=${id}`
+      newInfo(params).then(res => {
+        if(res.data.code === 200 && res.data.data) {
+          this.data = res.data.data
+        }
+      })
+    },
+    // 根据Id查询产品
+    requestidProduct(id) {
+      let params = `id=${id}`
+      caseInfo(params).then(res => {
+        if(res.data.code === 200 && res.data.data) {
+          this.data = res.data.data
+        }
+      })
+    },
   },
   mounted() {
     // this.$bus.$on("updateProduct", res => {
@@ -95,8 +111,10 @@ export default {
     const index = location.href.indexOf("newsDetail");
     if (index > 0) {
       this.location = "新闻详情";
+      this.getNewsManageById(this.$route.query.id)
     } else {
       this.location = "案例详情";
+      this.requestidProduct(this.$route.query.id)
     }
   }
 };
